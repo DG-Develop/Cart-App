@@ -1,14 +1,14 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@/components/ui/select';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -16,48 +16,120 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+} from "@/components/ui/table";
+import { Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Sale {
-  id: number;
-  product: string;
+  id: number
   quantity: number;
   price: number;
-  paymentType: 'efectivo' | 'tarjeta' | 'transferencia';
+  paymentType: "efectivo" | "tarjeta" | "transferencia";
   date: string;
 }
 
 const initialSales: Sale[] = [
-  { id: 1, product: 'Producto A', quantity: 2, price: 100, paymentType: 'efectivo', date: '2025-06-25' },
-  { id: 2, product: 'Producto B', quantity: 1, price: 50, paymentType: 'tarjeta', date: '2025-06-25' },
-  { id: 3, product: 'Producto C', quantity: 3, price: 75, paymentType: 'transferencia', date: '2025-06-24' },
-  { id: 4, product: 'Producto D', quantity: 1, price: 120, paymentType: 'efectivo', date: '2025-06-24' },
-  { id: 5, product: 'Producto E', quantity: 5, price: 200, paymentType: 'tarjeta', date: '2025-06-23' },
-  { id: 6, product: 'Producto F', quantity: 2, price: 80, paymentType: 'transferencia', date: '2025-06-23' },
-  { id: 7, product: 'Producto G', quantity: 1, price: 60, paymentType: 'efectivo', date: '2025-06-22' },
-  { id: 8, product: 'Producto H', quantity: 4, price: 160, paymentType: 'tarjeta', date: '2025-06-22' },
-  { id: 9, product: 'Producto I', quantity: 2, price: 90, paymentType: 'transferencia', date: '2025-06-21' },
-  { id: 10, product: 'Producto J', quantity: 3, price: 135, paymentType: 'efectivo', date: '2025-06-21' },
-  { id: 11, product: 'Producto K', quantity: 1, price: 45, paymentType: 'tarjeta', date: '2025-06-20' },
-  { id: 12, product: 'Producto L', quantity: 6, price: 300, paymentType: 'transferencia', date: '2025-06-20' },
+  {
+    id: 1,
+    quantity: 2,
+    price: 100,
+    paymentType: "efectivo",
+    date: "2025-06-25",
+  },
+  {
+    id: 2,
+    quantity: 1,
+    price: 50,
+    paymentType: "tarjeta",
+    date: "2025-06-25",
+  },
+  {
+    id: 3,
+    quantity: 3,
+    price: 75,
+    paymentType: "transferencia",
+    date: "2025-06-24",
+  },
+  {
+    id: 4,
+    quantity: 1,
+    price: 120,
+    paymentType: "efectivo",
+    date: "2025-06-24",
+  },
+  {
+    id: 5,
+    quantity: 5,
+    price: 200,
+    paymentType: "tarjeta",
+    date: "2025-06-23",
+  },
+  {
+    id: 6,
+    quantity: 2,
+    price: 80,
+    paymentType: "transferencia",
+    date: "2025-06-23",
+  },
+  {
+    id: 7,
+    quantity: 1,
+    price: 60,
+    paymentType: "efectivo",
+    date: "2025-06-22",
+  },
+  {
+    id: 8,
+    quantity: 4,
+    price: 160,
+    paymentType: "tarjeta",
+    date: "2025-06-22",
+  },
+  {
+    id: 9,
+    quantity: 2,
+    price: 90,
+    paymentType: "transferencia",
+    date: "2025-06-21",
+  },
+  {
+    id: 10,
+    quantity: 3,
+    price: 135,
+    paymentType: "efectivo",
+    date: "2025-06-21",
+  },
+  {
+    id: 11,
+    quantity: 1,
+    price: 45,
+    paymentType: "tarjeta",
+    date: "2025-06-20",
+  },
+  {
+    id: 12,
+    quantity: 6,
+    price: 300,
+    paymentType: "transferencia",
+    date: "2025-06-20",
+  },
 ];
 
 const Home: React.FC = () => {
   const [sales, setSales] = React.useState<Sale[]>(initialSales);
-  const [searchTerm, setSearchTerm] = React.useState<string>('');
-  const [paymentFilter, setPaymentFilter] = React.useState<string>('all');
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const [paymentFilter, setPaymentFilter] = React.useState<string>("all");
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const itemsPerPage = 5;
   const route = useNavigate();
 
   // Filter sales based on search term and payment type
   const filteredSales = React.useMemo(() => {
-    return sales.filter(sale => {
-      const matchesSearch = sale.product.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           sale.id.toString().includes(searchTerm);
-      const matchesPayment = paymentFilter === 'all' || sale.paymentType === paymentFilter;
+    return sales.filter((sale) => {
+      const matchesSearch =
+        sale.id.toString().includes(searchTerm);
+      const matchesPayment =
+        paymentFilter === "all" || sale.paymentType === paymentFilter;
       return matchesSearch && matchesPayment;
     });
   }, [sales, searchTerm, paymentFilter]);
@@ -78,26 +150,26 @@ const Home: React.FC = () => {
   };
 
   const handleDelete = (id: number) => {
-    setSales(prev => prev.filter(sale => sale.id !== id));
+    setSales((prev) => prev.filter((sale) => sale.id !== id));
   };
 
   const handleGenerate = () => {
-    route('products');
+    route("products");
   };
 
   const handlePreviousPage = () => {
-    setCurrentPage(prev => Math.max(prev - 1, 1));
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
   const formatPaymentType = (type: string) => {
     const types = {
-      efectivo: 'Efectivo',
-      tarjeta: 'Tarjeta',
-      transferencia: 'Transferencia'
+      efectivo: "Efectivo",
+      tarjeta: "Tarjeta",
+      transferencia: "Transferencia",
     };
     return types[type as keyof typeof types] || type;
   };
@@ -107,13 +179,15 @@ const Home: React.FC = () => {
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle className="text-3xl font-bold">Gestión de Ventas</CardTitle>
+            <CardTitle className="text-3xl font-bold">
+              Gestión de Ventas
+            </CardTitle>
             <Button onClick={handleGenerate} className="ml-auto">
               Generar Venta
             </Button>
           </div>
         </CardHeader>
-        
+
         <CardContent className="space-y-4">
           {/* Filtros */}
           <div className="flex flex-col sm:flex-row gap-4">
@@ -144,8 +218,8 @@ const Home: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[80px]">ID</TableHead>
-                  <TableHead>Producto</TableHead>
+                  <TableHead className="text-center">ID</TableHead>
+                  {/* <TableHead>Producto</TableHead> */}
                   <TableHead className="text-center">Cantidad</TableHead>
                   <TableHead className="text-right">Precio</TableHead>
                   <TableHead className="text-center">Tipo de Pago</TableHead>
@@ -158,33 +232,38 @@ const Home: React.FC = () => {
                   currentSales.map((sale) => (
                     <TableRow key={sale.id}>
                       <TableCell className="font-medium">{sale.id}</TableCell>
-                      <TableCell>{sale.product}</TableCell>
-                      <TableCell className="text-center">{sale.quantity}</TableCell>
-                      <TableCell className="text-right">${sale.price.toLocaleString()}</TableCell>
                       <TableCell className="text-center">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          sale.paymentType === 'efectivo' 
-                            ? 'bg-green-100 text-green-800' 
-                            : sale.paymentType === 'tarjeta'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-purple-100 text-purple-800'
-                        }`}>
+                        {sale.quantity}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        ${sale.price.toLocaleString()}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            sale.paymentType === "efectivo"
+                              ? "bg-green-100 text-green-800"
+                              : sale.paymentType === "tarjeta"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-purple-100 text-purple-800"
+                          }`}
+                        >
                           {formatPaymentType(sale.paymentType)}
                         </span>
                       </TableCell>
                       <TableCell className="text-center">{sale.date}</TableCell>
                       <TableCell>
                         <div className="flex justify-center gap-2">
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
+                          <Button
+                            variant="outline"
+                            size="sm"
                             onClick={() => handleUpdate(sale.id)}
                           >
                             Actualizar
                           </Button>
-                          <Button 
-                            variant="destructive" 
-                            size="sm" 
+                          <Button
+                            variant="destructive"
+                            size="sm"
                             onClick={() => handleDelete(sale.id)}
                           >
                             Eliminar
@@ -195,8 +274,12 @@ const Home: React.FC = () => {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                      No se encontraron ventas que coincidan con los filtros aplicados.
+                    <TableCell
+                      colSpan={7}
+                      className="text-center py-8 text-muted-foreground"
+                    >
+                      No se encontraron ventas que coincidan con los filtros
+                      aplicados.
                     </TableCell>
                   </TableRow>
                 )}
@@ -208,7 +291,9 @@ const Home: React.FC = () => {
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
-                Mostrando {startIndex + 1} a {Math.min(endIndex, filteredSales.length)} de {filteredSales.length} ventas
+                Mostrando {startIndex + 1} a{" "}
+                {Math.min(endIndex, filteredSales.length)} de{" "}
+                {filteredSales.length} ventas
               </div>
               <div className="flex items-center space-x-2">
                 <Button
